@@ -39,7 +39,7 @@ class tatkraeftig {
 
   function login() {
     
-    require_once("./settings.php");
+    require_once("settings.php");
 
     $url = 'https://login.salesforce.com/services/oauth2/token';
     $args = array(
