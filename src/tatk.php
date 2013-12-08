@@ -97,31 +97,19 @@ class tatkraeftig {
   function submission() {
     $options = get_option("salesforce2");
 
-    //validation
+    //very basic validation
     foreach ($options['forms'][1]['inputs'] as $key => $input) {
-
-      $val = trim($_POST[$key]);
-      if ($input['required'] && !$val) {
-        $options['forms'][$form]['inputs'][$key]['error'] = true;
-        $error = true;
-      }
-      else if ($key == 'email' && $input['required'] && !is_email($_POST[$key])) {
-        $error = true;
-        $emailerror = true;
-      }
-      else {
-        if (isset($_POST[$key]))
+        if (isset($_POST[$key])) {
           $post[$key] = trim(strip_tags(stripslashes($_POST[$key])));
-      }
+        }
     }
-
     $result = submit_salesforce_form($post, $options);
 
     if (!$result) {
       $content = '<strong>' . esc_html(stripslashes($options['sferrormsg'])) . '</strong>';
     }
     else {
-      $content = '<h3>Danke<h3>';
+      $content = '<h3>Danke<h3><p>Du wurdest erfolgreich angemeldet.</p><p><b><a href="">Zurück</b></p>';
     }
 
     return $content;
