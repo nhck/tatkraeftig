@@ -32,6 +32,8 @@ class tatkraeftig {
 
   function __construct() {
 
+    #add_action('wp_enqueue_scripts', 'addScripts');
+    wp_enqueue_script( 'tatkraeftig', plugins_url('/js/tatkraeftig.js', __FILE__), array(), '1.0.0', true );
     add_shortcode('projekte', array($this, 'display'));
   }
 
@@ -153,15 +155,13 @@ class tatkraeftig {
       $result[] = "<td>Gesucht: </td>";
       $result[] = "<td>" . $value["Freiwillige__c"] . "</td>";
       $result[] = "</tr>";
-
       $result[] = "</table>";
-      
-      if (isset($_POST['w2lsubmit']) && $_POST['Campaign_ID'] == $value["Id"]) {
-        $result[]  = $this->submission();
-      }
-      else {
-        $result[]  = $this->createForm($value["Id"]);
-      }
+
+      $result[]  = "<div>";
+      $result[]  = "<img class='submit-button' src='https://gallery.mailchimp.com/91eaafc344593897c12af670b/images/anmelde_button.png' width='120' height='43' align='none'>";
+
+      $result[]  = "<div class='project-form' style='display:none'>" . $this->createForm($value["Id"]) . "</div>";
+      $result[]  = "</div>";
 
       $result_array[] = '<div>' . implode($result) . '</div>';
     }
