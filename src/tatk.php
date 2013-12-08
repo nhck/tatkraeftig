@@ -128,6 +128,9 @@ class tatkraeftig {
   function renderProjectList() {
     $campaignsAsJson = $this->getCampaigns();
     $result_array = array();
+    
+    setlocale(LC_time, 'de_DE@euro', 'de_DE', 'deu_deu'); //Set locale for time display
+    
     foreach ($campaignsAsJson["records"] as $key => $value) {
       $result = array();
       $result[] = "<h2 class='entry-title'>" . $value["Name"] . "</h2>";
@@ -139,7 +142,7 @@ class tatkraeftig {
       $result[] = "</tr>";
       $result[] = "<tr>";
       $result[] = "<td>Datum: </td>";
-      $result[] = "<td>" . $value["StartDate"] . " - " . $value["EndDate"] . "</td>";
+      $result[] = "<td>" . strftime ('%d. %b. %Y',strtotime($value["StartDate"])) . " bis " . strftime ('%d. %b. %Y',strtotime($value["EndDate"])) . "</td>";
       $result[] = "</tr>";
       $result[] = "<tr>";
       $result[] = "<td>Zeit: </td>";
