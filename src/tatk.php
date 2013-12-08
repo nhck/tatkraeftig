@@ -69,7 +69,7 @@ class tatkraeftig {
       $this->login();
     }
 
-    $urlParams = urlencode('SELECT Name, Id, Description from Campaign');
+    $urlParams = urlencode('SELECT Id, Name, Description, StartDate, EndDate, IsActive, NumberOfLeads, Uhrzeit_von_bis__c, Treffpunkt__c, Aufgaben__c, Freiwillige__c FROM Campaign WHERE IsActive=true AND EndDate >= TODAY');
     $url = 'https://eu2.salesforce.com/services/data/v29.0/query?q=' . $urlParams;
     $args = array(
       'method' => 'GET',
@@ -130,8 +130,18 @@ class tatkraeftig {
     $result_array = array();
     foreach ($campaignsAsJson["records"] as $key => $value) {
       $result = array();
-      $result[] = '<h2 class="entry-title">' . $value["Name"] . '</h2>';
-      $result[] = '<p>' . $value["Description"] . '</p>';
+      $result[] = "<h2 class='entry-title'>" . $value["Name"] . "</h2>";
+      $result[] = "<p>" . $value["Description"] . "</p>";
+      $result[] = "<table>";
+      $result[] = "<tr>";
+      $result[] = "<td>Projektart: </td>";
+      $result[] = "<td>" . $value["Aufgaben__c"] . "</td>";
+      $result[] = "</tr>";
+      $result[] = "<tr>";
+      $result[] = "<td>Datum: </td>";
+      $result[] = "<td>" . $value["StartDate"] . " - " . $value["EndDate"] . "</td>";
+      $result[] = "</tr>";
+      $result[] = "</table>";
       
       if (isset($_POST['w2lsubmit']) && $_POST['Campaign_ID'] == $value["Id"]) {
         $result[]  = $this->submission();
