@@ -130,6 +130,9 @@ class tatkraeftig {
   function renderProjectList() {
     $campaignsAsJson = $this->getCampaigns();
     $result_array = array();
+    
+    setlocale(LC_time, 'de_DE@euro', 'de_DE', 'deu_deu'); //Set locale for time display
+    
     foreach ($campaignsAsJson["records"] as $key => $value) {
       $result = array();
       $result[] = "<h2 class='entry-title'>" . $value["Name"] . "</h2>";
@@ -141,7 +144,7 @@ class tatkraeftig {
       $result[] = "</tr>";
       $result[] = "<tr>";
       $result[] = "<td>Datum: </td>";
-      $result[] = "<td>" . $value["StartDate"] . " - " . $value["EndDate"] . "</td>";
+      $result[] = "<td>" . strftime ('%d. %b. %Y',strtotime($value["StartDate"])) . " bis " . strftime ('%d. %b. %Y',strtotime($value["EndDate"])) . "</td>";
       $result[] = "</tr>";
       $result[] = "<tr>";
       $result[] = "<td>Zeit: </td>";
@@ -156,13 +159,11 @@ class tatkraeftig {
       $result[] = "<td>" . $value["Freiwillige__c"] . "</td>";
       $result[] = "</tr>";
       $result[] = "</table>";
-
       $result[]  = "<div>";
       $result[]  = "<img class='submit-button' src='https://gallery.mailchimp.com/91eaafc344593897c12af670b/images/anmelde_button.png' width='120' height='43' align='none'>";
-
       $result[]  = "<div class='project-form' style='display:none'>" . $this->createForm($value["Id"]) . "</div>";
       $result[]  = "</div>";
-
+      
       $result_array[] = '<div>' . implode($result) . '</div>';
     }
     return implode($result_array);
