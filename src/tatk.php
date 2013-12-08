@@ -141,6 +141,19 @@ class tatkraeftig {
       $result[] = "<td>Datum: </td>";
       $result[] = "<td>" . $value["StartDate"] . " - " . $value["EndDate"] . "</td>";
       $result[] = "</tr>";
+      $result[] = "<tr>";
+      $result[] = "<td>Zeit: </td>";
+      $result[] = "<td>" . $value["Uhrzeit_von_bis__c"] . "</td>";
+      $result[] = "</tr>";
+      $result[] = "<tr>";
+      $result[] = "<td>Ort: </td>";
+      $result[] = "<td>" . $value["Treffpunkt__c"] . "</td>";
+      $result[] = "</tr>";
+      $result[] = "<tr>";
+      $result[] = "<td>Gesucht: </td>";
+      $result[] = "<td>" . $value["Freiwillige__c"] . "</td>";
+      $result[] = "</tr>";
+
       $result[] = "</table>";
       
       if (isset($_POST['w2lsubmit']) && $_POST['Campaign_ID'] == $value["Id"]) {
