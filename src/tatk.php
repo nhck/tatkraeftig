@@ -159,12 +159,9 @@ class tatkraeftig {
 
       $result[] = "</table>";
       
-      if (isset($_POST['w2lsubmit']) && $_POST['Campaign_ID'] == $value["Id"]) {
-        $result[]  = $this->submission();
-      }
-      else {
-        $result[]  = $this->createForm($value["Id"]);
-      }
+      
+      $result[]  = $this->createForm($value["Id"]);
+     
 
       $result_array[] = '<div>' . implode($result) . '</div>';
     }
