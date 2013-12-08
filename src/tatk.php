@@ -129,28 +129,33 @@ class tatkraeftig {
     else {
       $content = 'Danke';
     }
-    
+
     return $content;
   }
 
-  function display() {
+  function renderProjectList() {
     $campaignsAsJson = $this->getCampaigns();
     $result_array = array();
     foreach ($campaignsAsJson["records"] as $key => $value) {
       $result = array();
       $result[] = $value["Name"];
       $result[] = $value["Description"];
-      
-      if (isset($_POST['w2lsubmit']) && $_POST['Campaign_ID'] == $value["Id"]) {
-        $result[]  = $this->submission();
-      }
-      else {
-        $result[]  = $this->createForm($value["Id"]);
-      }
 
+     
+        $result[] = $this->createForm($value["Id"]);
       $result_array[] = implode($result);
     }
     return implode($result_array);
+  }
+
+  function display() {
+    if (isset($_POST['w2lsubmit'])) {
+      $content = $this->submission();
+    }
+    else {
+      $content = $this->renderProjectList();
+    }
+    return $content;
   }
 
 }
