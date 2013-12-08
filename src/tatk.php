@@ -82,22 +82,14 @@ class tatkraeftig {
     return $requestJson;
   }
 
-  /*
-   * Prints Array retrieved via {@see getdata}
-   * 
-   * @param array Array that was retrieved
-   * @return string
-   */
-
-  function printdata($data = array()) {
-
-    return 'hello';
-  }
-
   function createForm($campaignID) {
     $options = get_option('salesforce2');
     $options['forms'][1]['inputs']['Campaign_ID']['value'] = $campaignID;
-    return salesforce_form($options) . '<pre><h4>$options</h4>' . print_r($options, true) . '</pre>' . '<pre><h4>Submitted Options</h4>' . print_r($_POST, true) . '</pre>';
+
+    #'<pre><h4>$options</h4>' . print_r($options, true) . '</pre>'
+    #'<pre><h4>Submitted Options</h4>' . print_r($_POST, true) . '</pre>'
+
+    return salesforce_form($options);
   }
 
   function submission() {
@@ -116,7 +108,7 @@ class tatkraeftig {
         $emailerror = true;
       }
       else {
-        if (isset($_POST[$id]))
+        if (isset($_POST[$key]))
           $post[$key] = trim(strip_tags(stripslashes($_POST[$key])));
       }
     }
@@ -127,7 +119,7 @@ class tatkraeftig {
       $content = '<strong>' . esc_html(stripslashes($options['sferrormsg'])) . '</strong>';
     }
     else {
-      $content = 'Danke';
+      $content = '<h3>Danke<h3>';
     }
     
     return $content;
@@ -138,8 +130,8 @@ class tatkraeftig {
     $result_array = array();
     foreach ($campaignsAsJson["records"] as $key => $value) {
       $result = array();
-      $result[] = $value["Name"];
-      $result[] = $value["Description"];
+      $result[] = '<h2 class="entry-title">' . $value["Name"] . '</h2>';
+      $result[] = '<p>' . $value["Description"] . '</p>';
       
       if (isset($_POST['w2lsubmit']) && $_POST['Campaign_ID'] == $value["Id"]) {
         $result[]  = $this->submission();
@@ -148,7 +140,7 @@ class tatkraeftig {
         $result[]  = $this->createForm($value["Id"]);
       }
 
-      $result_array[] = implode($result);
+      $result_array[] = '<div>' . implode($result) . '</div>';
     }
     return implode($result_array);
   }
